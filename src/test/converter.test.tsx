@@ -143,25 +143,44 @@ describe("Convert component", function () {
     const firstInput = inputs[0];
     expect(firstInput).toHaveValue(100);
   });
-});
+
 
 //   //ХЗ ЭТО ГОВНО КАКОЕТЕО??
-//   it("should if tap USD for JPY in Хочу приобрести switch input value", async () => {
-//     const jpyButtons = await screen.findAllByText("JPY");
-//     const jpyLastButton = jpyButtons[1];
-//     fireEvent.click(jpyLastButton);
+  it("should if tap USD for JPY in Хочу приобрести switch input value", async () => {
+    const jpyButtons = await screen.findAllByText("JPY");
+    const jpyLastButton = jpyButtons[1];
 
-//     const inputs = await screen.findAllByRole("spinbutton");
-//     const lastInput = inputs[1];
+    const rubButtons = await screen.findAllByText("RUR");
+    const rubFirstButton = rubButtons[0];
 
-// await waitFor(() => {
-//     expect(lastInput).toHaveValue(188.2);
-// })
+    fireEvent.click(rubFirstButton)
+    fireEvent.click(jpyLastButton);
 
-//     // expect(lastInput).toHaveValue(188.2);
-//     console.log("Input value:", lastInput.getAttribute("value"));
-//   });
+    const inputs = await screen.findAllByRole("spinbutton");
+    const lastInput = inputs[1];
 
+await waitFor(() => {
+    expect(lastInput).toHaveValue(188.2);
+})
+
+    // expect(lastInput).toHaveValue(188.2);
+    console.log("Input value:", lastInput.getAttribute("value"));
+  });
+
+//   it('should lol', async() => {
+//  const RURButons = await screen.findAllByText('RUR');
+//  const RUR1 = RURButons[0];
+
+//  const USDButtons = await screen.findAllByText('USD');
+//  const USD2= USDButtons[1]
+
+//  const transferImage = await screen.getByAltText(/src/assets/transfer.svg poster/i)
+//  console.log(transferImage)
+//  fireEvent.click(transferImage)
+
+
+//   })
+});
 // });
 
 //    it("should if tap USD for JPY in Хочу приобрести switch input value", async () => {

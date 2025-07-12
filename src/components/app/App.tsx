@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useGetCurrenciesQuery } from "../../services/getCurrencies.api";
-import { changeFieldValue, setCurrencies, setCurrentCurrency, setMainCurrency } from "../../services/currenciesSlice";
+import { changeFieldValue, resetCurrencies, setCurrencies, setCurrentCurrency, setMainCurrency } from "../../services/currenciesSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import Converter from "../сonverter/Converter";
@@ -25,6 +25,11 @@ function App() {
       dispatch(setCurrencies(currenciesArray));
       dispatch(setMainCurrency(mainCurrencies));
     }
+
+   
+    return () => {
+      dispatch(resetCurrencies());
+    };
   }, [response, dispatch]);
 
   const { currencies, currencyFirstField, currencySecondField, countFirstField } = useSelector(
