@@ -102,7 +102,7 @@ describe("Convert component", function () {
     expect(USDLastButton).not.toHaveClass("active");
   });
 
-    it("should switch currency to JPY when active to 'Хочу купить'", async () => {
+  it("should switch currency to JPY when active to 'Хочу купить'", async () => {
     const USDButtons = await screen.findAllByText("USD");
     const USDLastButton = USDButtons[1];
     const JPYButtons = await screen.findAllByText("JPY");
@@ -114,7 +114,7 @@ describe("Convert component", function () {
     expect(USDLastButton).not.toHaveClass("active");
   });
 
-      it("should switch currency to KZT when active to 'Хочу купить'", async () => {
+  it("should switch currency to KZT when active to 'Хочу купить'", async () => {
     const USDButtons = await screen.findAllByText("USD");
     const USDLastButton = USDButtons[1];
     const KZTButtons = await screen.findAllByText("KZT");
@@ -126,7 +126,7 @@ describe("Convert component", function () {
     expect(USDLastButton).not.toHaveClass("active");
   });
 
-        it("should switch currency to CAD when active to 'Хочу купить'", async () => {
+  it("should switch currency to CAD when active to 'Хочу купить'", async () => {
     const USDButtons = await screen.findAllByText("USD");
     const USDLastButton = USDButtons[1];
     const CADButtons = await screen.findAllByText("CAD");
@@ -144,70 +144,88 @@ describe("Convert component", function () {
     expect(firstInput).toHaveValue(100);
   });
 
-
-//   //ХЗ ЭТО ГОВНО КАКОЕТЕО??
-  it("should if tap USD for JPY in Хочу приобрести switch input value", async () => {
+  //   //ХЗ ЭТО ГОВНО КАКОЕТЕО??
+  it("should if tap RUR for JPY in Хочу приобрести switch input value", async () => {
     const jpyButtons = await screen.findAllByText("JPY");
     const jpyLastButton = jpyButtons[1];
 
     const rubButtons = await screen.findAllByText("RUR");
     const rubFirstButton = rubButtons[0];
 
-    fireEvent.click(rubFirstButton)
+    fireEvent.click(rubFirstButton);
     fireEvent.click(jpyLastButton);
 
     const inputs = await screen.findAllByRole("spinbutton");
     const lastInput = inputs[1];
 
-await waitFor(() => {
-    expect(lastInput).toHaveValue(188.2);
-})
+    await waitFor(() => {
+      expect(lastInput).toHaveValue(187.57);
+    });
 
     // expect(lastInput).toHaveValue(188.2);
     console.log("Input value:", lastInput.getAttribute("value"));
   });
 
-//   it('should lol', async() => {
-//  const RURButons = await screen.findAllByText('RUR');
-//  const RUR1 = RURButons[0];
+  it("should if tap RUR for CAD in Хочу приобрести switch input value", async () => {
+    const rubButtons = await screen.findAllByText("RUR");
+    const rubFirstButton = rubButtons[0];
 
-//  const USDButtons = await screen.findAllByText('USD');
-//  const USD2= USDButtons[1]
+    const CADButtons = await screen.findAllByText("CAD");
+    const CADLastButton = CADButtons[1];
 
-//  const transferImage = await screen.getByAltText(/src/assets/transfer.svg poster/i)
-//  console.log(transferImage)
-//  fireEvent.click(transferImage)
+    fireEvent.click(rubFirstButton);
+    fireEvent.click(CADLastButton);
 
+    const inputs = await screen.findAllByRole("spinbutton");
+    const lastInput = inputs[1];
+    const firstInput = inputs[0];
 
-//   })
+    fireEvent.change(firstInput, { target: { value: "50" } });
+    await waitFor(() => {
+      expect(lastInput).toHaveValue( 0.87);
+    });
+
+    // expect(lastInput).toHaveValue(188.2);
+    console.log("CAD input", lastInput.getAttribute("value"));
+  });
+
+  it("should Box__rate try content", async () => {
+    const CADButtons = await screen.findAllByText("CAD");
+    const CADLastButton = CADButtons[1];
+
+    const rubButtons = await screen.findAllByText("RUR");
+    const rubFirstButton = rubButtons[0];
+    fireEvent.click(rubFirstButton);
+    fireEvent.click(CADLastButton);
+
+    const rateElement = document.querySelector(".box__rate");
+    await expect(rateElement?.textContent).toMatch(/1 RUR = 0.02 CAD/);
+  });
+
+  it("should direction__reverse change currensy", async () => {
+    const rubButtons = await screen.findAllByText("RUR");
+    const rubFirstButton = rubButtons[0];
+    const RUDLastButton = rubButtons[1];
+
+    const EURButtons = await screen.findAllByText("EUR");
+    const EURFirstButton = EURButtons[0];
+    const EURLastButton = EURButtons[1];
+
+    fireEvent.click(rubFirstButton);
+    fireEvent.click(EURLastButton);
+
+    const reverseDiv = await screen.findByText("", {
+      selector: ".direction__reverse",
+    });
+
+    expect(reverseDiv).toBeInTheDocument();
+
+    fireEvent.click(reverseDiv);
+
+    expect(rubFirstButton).not.toHaveClass("active");
+    expect(RUDLastButton).toHaveClass("active");
+    expect(EURLastButton).not.toHaveClass("active");
+    expect(EURFirstButton).toHaveClass("active");
+  });
 });
-// });
 
-//    it("should if tap USD for JPY in Хочу приобрести switch input value", async () => {
-//     // Находим кнопку JPY во второй группе валют (Хочу приобрести)
-//     const jpyButtons = await screen.findAllByText("JPY");
-//     const jpyLastButton = jpyButtons[1];
-
-//     // Находим второй input (для "Хочу приобрести")
-//     const inputs = await screen.findAllByRole("spinbutton");
-//     const lastInput = inputs[1];
-
-//     // Кликаем на JPY
-//     fireEvent.click(jpyLastButton);
-
-//     // Ждем обновления значения
-//     await waitFor(() => {
-//       expect(lastInput).toHaveValue(0.68);
-//     });
-//   });
-
-// const inputs = screen.getAllByRole("spinbutton");
-// const lastInput = inputs[1];
-
-// // Имитируем ввод пользователя
-// await userEvent.clear(lastInput);
-// await userEvent.type(lastInput, '42');
-
-// // Проверяем новое значение
-// console.log('New value:', lastInput.value); // "42"
-// expect(lastInput).toHaveValue(42);

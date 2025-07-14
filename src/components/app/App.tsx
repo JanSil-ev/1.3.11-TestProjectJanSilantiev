@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useGetCurrenciesQuery } from "../../services/getCurrencies.api";
-import { changeFieldValue, resetCurrencies, setCurrencies, setCurrentCurrency, setMainCurrency } from "../../services/currenciesSlice";
+import {
+  changeFieldValue,
+  resetCurrencies,
+  setCurrencies,
+  setCurrentCurrency,
+  setMainCurrency,
+} from "../../services/currenciesSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import Converter from "../сonverter/Converter";
@@ -26,7 +32,6 @@ function App() {
       dispatch(setMainCurrency(mainCurrencies));
     }
 
-   
     return () => {
       dispatch(resetCurrencies());
     };
@@ -138,8 +143,6 @@ function App() {
 
 export default App;
 
-
-
 // import { useEffect } from "react";
 // import { useDispatch } from "react-redux";
 // import { useGetCurrenciesQuery } from "../../services/getCurrencies.api";
@@ -161,7 +164,7 @@ export default App;
 //         response.Valute["JPY"],
 //         response.Valute["KZT"],
 //         response.Valute["CAD"],
-//       ].filter(Boolean); 
+//       ].filter(Boolean);
 
 //       dispatch(setCurrencies(currenciesArray));
 //       dispatch(setMainCurrency(mainCurrencies));
